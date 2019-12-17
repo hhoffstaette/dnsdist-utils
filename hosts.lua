@@ -1,6 +1,6 @@
 
 -- read all entries from /etc/hosts & invoke callback with (ip, hostname) as argument
-function add_hosts(callback)
+function forEachHost(callback)
   hosts = "/etc/hosts"
 
   for line in io.lines(hosts) do

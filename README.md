@@ -14,10 +14,10 @@ package.path = package.path .. ";/etc/dnsdist/?.lua"
 -- Load hosts module
 require "hosts"
 ```
-* Pass ``dnsdist``'s function to create a spoofed DNS entry into the ``add_hosts`` function:
+* Pass ``dnsdist``'s function to create a spoofed DNS entry into the ``forEachHost`` function:
 ```
 -- Add entries from /etc/hosts
-add_hosts(function(ip, hostname) addAction(hostname, SpoofAction({ip})) end)
+forEachHost(function(ip, hostname) addAction(hostname, SpoofAction({ip})) end)
 ```
 
 Done! Your ``dnsdist`` instance will now serve all non-``localhost`` entries,
