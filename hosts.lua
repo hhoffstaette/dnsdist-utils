@@ -1,9 +1,15 @@
 
--- read all entries from /etc/hosts & invoke callback with (ip, hostname) as argument
-function forEachHost(callback)
-  hosts = "/etc/hosts"
+-- check whether a file exists and can be opened for reading
+local function file_exists(name)
+   local f = io.open(name, "r")
+   return f ~= nil and io.close(f)
+end
 
-  for line in io.lines(hosts) do
+-- read all lines from given file & invoke callback with (ip, hostname) as argument;
+-- nonexisting files are ignored.
+local function forEachHost(file, callback)
+  if not file_exists(file) then return end
+  for line in io.lines(file) do
     -- ignore empty lines and comments
     if string.len(line) ~= 0 and string.find(line, "^#") == nil then
       -- ignore any localhost entries
@@ -18,5 +24,30 @@ function forEachHost(callback)
       end
     end
   end
+end
+
+-- read all lines from given file & invoke callback with (domain) as argument;
+-- nonexisting files are ignored.
+local function forEachDomain(file, callback)
+  if not file_exists(file) then return end
+  for line in io.lines(file) do
+    -- ignore empty lines and comments
+    if string.len(line) ~= 0 and string.find(line, "^#") == nil then
+      -- create entries for every name
+      for domain in string.gmatch(line, "(%g+)") do
+        callback(domain)
+      end
+    end
+  end
+end
+
+-- create spoof rules for all entries in the given hosts file
+function addHosts(file)
+  forEachHost(file, function(ip, hostname) addAction(hostname, SpoofAction({ip})) end)
+end
+
+-- create nxdomain rules for all entries in the given file
+function blockDomains(file)
+  forEachDomain(file, function(domain) addAction(domain, RCodeAction(DNSRCode.NXDOMAIN)) end)
 end
 
