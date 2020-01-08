@@ -11,13 +11,25 @@ package.path = package.path .. ";/etc/dnsdist/?.lua"
 ```
 * Load the module:
 ```
--- Load hosts module
 require "hosts"
 ```
-* Pass ``dnsdist``'s function to create a spoofed DNS entry into the ``forEachHost`` function:
+* Add entries from ``/etc/hosts``:
 ```
--- Add entries from /etc/hosts
-forEachHost(function(ip, hostname) addAction(hostname, SpoofAction({ip})) end)
+addHosts("/etc/hosts")
+```
+
+* Optionally blacklist domains:
+```
+blockDomains("/etc/dnsdist/blacklist.conf")
+```
+The blacklist is just a simple file with one domain per line, e.g.:
+```
+#
+# blacklisted domains
+#
+badwarez.net
+facebork.net
+gurgle.com
 ```
 
 Done! Your ``dnsdist`` instance will now serve all non-``localhost`` entries,
