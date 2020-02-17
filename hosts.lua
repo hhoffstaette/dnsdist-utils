@@ -1,8 +1,8 @@
 
 -- check whether a file exists and can be opened for reading
 local function file_exists(name)
-   local f = io.open(name, "r")
-   return f ~= nil and io.close(f)
+  local f = io.open(name, "r")
+  return f ~= nil and io.close(f)
 end
 
 -- read all lines from given file & invoke callback with (ip, hostname) as argument;
