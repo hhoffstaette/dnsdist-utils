@@ -1,24 +1,22 @@
-# dnsdist-hosts
+# dnsdist-utils
 
 The awesome [dnsdist](https://dnsdist.org/) DNS proxy/load balancer has almost every feature one could need for DNS, except of course the one that is useful for a small, forwarding-proxy-only home lab: exporting a central list of inhouse hosts to your own DNS, like e.g [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) does by default. Lua scripting to the rescue!
 
 ## Usage
-* Add ``hosts.lua`` either to your /etc/dnsdist directory or alternatively somewhere on your default Lua module path (e.g. ``/usr/local/share/lua/5.1/``)
-* Edit ``dnsdist.conf`` to include the directory (if necessary):
+* Add the ``.lua`` files either:
+** somewhere on your default Lua module path (e.g. ``/usr/local/share/lua/5.1/``)
+** to your /etc/dnsdist directory and edit ``dnsdist.conf`` to include the directory:
 ```
 -- Add dnsdist config dir to Lua search path
 package.path = package.path .. ";/etc/dnsdist/?.lua"
 ```
-* Load the module:
+* Expose entries from ``/etc/hosts``:
 ```
 require "hosts"
-```
-* Add entries from ``/etc/hosts``:
-```
 addHosts("/etc/hosts")
 ```
 
-* Optionally blacklist domains:
+* Blacklist domains:
 ```
 blockDomains("/etc/dnsdist/blacklist.conf")
 ```
@@ -30,6 +28,12 @@ The blacklist is just a simple file with one domain per line, e.g.:
 badwarez.net
 facebork.net
 gurgle.com
+```
+
+* Extend DNS record TTLs, e.g. to set the minimum TTL for DNS responses to 3600 seconds:
+```
+require "ttl"
+setMinTTL(3600)
 ```
 
 Done! Your ``dnsdist`` instance will now serve all non-``localhost`` entries,
