@@ -6,8 +6,10 @@ local function minTTL(section, qclass, qtype, ttl)
 end
 
 local function checkTTL(dnsResponse)
-  dnsResponse:editTTLs(minTTL)
-  return DNSResponseAction.Allow
+  if dnsResponse.rcode == DNSRCode.NOERROR then
+    dnsResponse:editTTLs(minTTL)
+  end
+  return DNSResponseAction.None
 end
 
 function setMinTTL(value)
