@@ -3,20 +3,20 @@
 The awesome [dnsdist](https://dnsdist.org/) DNS proxy/load balancer has almost every feature one could need for DNS, except of course the one that is useful for a small, forwarding-proxy-only home lab: exporting a central list of inhouse hosts to your own DNS, like e.g [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) does by default. Lua scripting to the rescue!
 
 ## Usage
-* Add the ``.lua`` files either:
-** somewhere on your default Lua module path (e.g. ``/usr/local/share/lua/5.1/``)
-** to your /etc/dnsdist directory and edit ``dnsdist.conf`` to include the directory:
+- Add the ``.lua`` files either:
+  - somewhere on your default Lua module path (e.g. ``/usr/local/share/lua/5.1/``)
+  - to your /etc/dnsdist directory and edit ``dnsdist.conf`` to include the directory:
 ```
 -- Add dnsdist config dir to Lua search path
 package.path = package.path .. ";/etc/dnsdist/?.lua"
 ```
-* Expose entries from ``/etc/hosts``:
+- Expose entries from ``/etc/hosts``:
 ```
 require "hosts"
 addHosts("/etc/hosts")
 ```
 
-* Blacklist domains:
+- Blacklist domains:
 ```
 blockDomains("/etc/dnsdist/blacklist.conf")
 ```
@@ -30,7 +30,7 @@ facebork.net
 gurgle.com
 ```
 
-* Extend DNS record TTLs, e.g. to set the minimum TTL for DNS responses to 3600 seconds:
+- Extend DNS record TTLs, e.g. to set the minimum TTL for DNS responses to 3600 seconds:
 ```
 require "ttl"
 setMinTTL(3600)
