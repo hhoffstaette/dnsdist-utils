@@ -16,14 +16,14 @@ require "hosts"
 addHosts("/etc/hosts")
 ```
 
-- Blacklist domains:
+- Block domains:
 ```
-blockDomains("/etc/dnsdist/blacklist.conf")
+blockDomains("/etc/dnsdist/blocked.conf")
 ```
-The blacklist is just a simple file with one domain per line, e.g.:
+The list of blocked domains is a plain file with one entry per line, e.g.:
 ```
 #
-# blacklisted domains
+# blocked domains
 #
 badwarez.net
 facebork.net
