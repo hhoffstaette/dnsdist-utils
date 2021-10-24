@@ -43,11 +43,11 @@ end
 
 -- create spoof rules for all entries in the given hosts file
 function addHosts(file)
-  forEachHost(file, function(ip, hostname) addAction(hostname, SpoofAction({ip})) end)
+  forEachHost(file, function(ip, hostname) addAction(hostname, SpoofAction({ip}), {name=hostname}) end)
 end
 
 -- create nxdomain rules for all entries in the given file
 function blockDomains(file)
-  forEachDomain(file, function(domain) addAction(domain, RCodeAction(DNSRCode.NXDOMAIN)) end)
+  forEachDomain(file, function(domain) addAction(domain, RCodeAction(DNSRCode.NXDOMAIN), {name=domain}) end)
 end
 

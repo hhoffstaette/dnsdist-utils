@@ -14,6 +14,6 @@ end
 
 function setMinTTL(value)
   MinTTL = value
-  addResponseAction(AllRule(), LuaResponseAction(checkTTL))
+  addResponseAction(AllRule(), LuaResponseAction(checkTTL), {name="minTTL"})
 end
 
