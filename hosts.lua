@@ -43,7 +43,7 @@ end
 
 -- create spoof rules for all entries in the given hosts file
 function addHosts(file)
-  forEachHost(file, function(ip, hostname) addAction(hostname, SpoofAction({ip}), {name=hostname}) end)
+  forEachHost(file, function(ip, hostname) addAction(hostname, SpoofAction({ip}, {ttl=3600}), {name=hostname}) end)
 end
 
 -- create nxdomain rules for all entries in the given file
