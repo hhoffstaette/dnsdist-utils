@@ -46,8 +46,13 @@ function addHosts(file)
   forEachHost(file, function(ip, hostname) addAction(hostname, SpoofAction({ip}, {ttl=3600}), {name=hostname}) end)
 end
 
+-- create nxdomain rule for a single host/domain
+function blockDomain(domain)
+  addAction(domain, RCodeAction(DNSRCode.NXDOMAIN), {name=domain, ttl=86400})
+end
+
 -- create nxdomain rules for all entries in the given file
 function blockDomains(file)
-  forEachDomain(file, function(domain) addAction(domain, RCodeAction(DNSRCode.NXDOMAIN), {name=domain}) end)
+  forEachDomain(file, function(domain) blockDomain(domain) end)
 end
 
