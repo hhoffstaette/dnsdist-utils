@@ -15,8 +15,11 @@ package.path = package.path .. ";/etc/dnsdist/?.lua"
 require "hosts"
 addHosts("/etc/hosts")
 ```
-
-- Block domains:
+- Block a single domain, either interactively on the console or explicitly in the config:
+```
+blockDomain("instagramm.net")
+```
+- Block domains from a file:
 ```
 blockDomains("/etc/dnsdist/blocked.conf")
 ```
