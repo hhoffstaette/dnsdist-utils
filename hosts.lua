@@ -48,7 +48,7 @@ end
 
 -- create nxdomain rule for a single host/domain
 function blockDomain(domain)
-  addAction(domain, RCodeAction(DNSRCode.NXDOMAIN), {name=domain, ttl=86400})
+  addAction(domain, RCodeAction(DNSRCode.NXDOMAIN), {name=domain})
 end
 
 -- create nxdomain rules for all entries in the given file
