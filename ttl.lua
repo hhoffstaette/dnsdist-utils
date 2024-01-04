@@ -1,5 +1,5 @@
 
-MinTTL = 0
+local MinTTL = 0
 
 local function minTTL(section, qclass, qtype, ttl)
   return math.max(ttl, MinTTL)
@@ -13,7 +13,17 @@ local function checkTTL(dnsResponse)
 end
 
 function setMinTTL(value)
+  -- remove a previous rule
+  if MinTTL > 0 then
+  	rmResponseRule("minTTL")
+  end
+
+  -- keep the value
   MinTTL = value
-  addResponseAction(AllRule(), LuaResponseAction(checkTTL), {name="minTTL"})
+
+  -- only add the rule if the new TTL is >0
+  if value > 0 then
+    addResponseAction(AllRule(), LuaResponseAction(checkTTL), {name="minTTL"})
+  end
 end
 
