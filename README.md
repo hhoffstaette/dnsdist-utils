@@ -39,5 +39,25 @@ require "ttl"
 setMinTTL(3600)
 ```
 
+- Easily set common default options for upstream servers:
+```
+require "servers"
+
+-- set default options once instead of repeating them for every server
+setDefaultServerOptions({
+	healthCheckMode="lazy",
+	checkInterval=60,
+	maxCheckFailures=2,
+	lazyHealthCheckFailedInterval=60,
+	lazyHealthCheckUseExponentialBackOff=true,
+	lazyHealthCheckThreshold=3,
+	weight=1000})
+
+-- add server with default options
+addServer({address="1.1.1.1"})
+-- add server with overridden default option
+addServer({address="8.8.8.8", weight=2000})
+```
+
 Done! Your ``dnsdist`` instance will now serve all non-``localhost`` entries,
 which you can inspect on the console via ``showRules()`` or the Web UI.
