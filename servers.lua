@@ -16,6 +16,14 @@ end
 
 local DefaultServerOptions = {}
 
+local function forEachServer(nameOrAddress, callback)
+  for index,server in pairs(getServers()) do
+    if string.match(server:getNameWithAddr(), nameOrAddress) ~= nil then
+      callback(server)
+    end
+  end
+end
+
 function setDefaultServerOptions(options)
   DefaultServerOptions = options
 end
@@ -23,5 +31,13 @@ end
 function addServer(options)
   local merged  = mergedTable(DefaultServerOptions, options)
   return newServer(merged)
+end
+
+function disableServer(nameOrAddress)
+  forEachServer(nameOrAddress, function (server) server:setDown() end)
+end
+
+function enableServer(nameOrAddress)
+  forEachServer(nameOrAddress, function (server) server:setAuto(true) end)
 end
 
