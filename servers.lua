@@ -22,6 +22,6 @@ end
 
 function addServer(options)
   local merged  = mergedTable(DefaultServerOptions, options)
-  newServer(merged)
+  return newServer(merged)
 end
 
