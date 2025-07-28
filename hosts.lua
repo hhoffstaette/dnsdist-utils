@@ -44,18 +44,12 @@ end
 -- create a unique action name for the given host entry to prevent
 -- duplicate metrics for hosts with both v4/v6 addresses
 local function actionName(hostentry, ip)
-    -- v6 address?
-    if string.find(ip, ":") ~= nil then
-        -- split host & domain
-        host = string.match(hostentry, "[^.*%.]+")
-        domain = string.match(hostentry, "[.*%.].*")
-        if domain == nil then domain = "" end
-        -- add suffix to host
-        return host .. "_v6" .. domain
-    end
-
-    -- host entry is v4
-    return hostentry
+  -- v6 address?
+  if string.find(ip, ":") ~= nil then
+    return hostentry .. "_v6"
+  end
+  -- host entry is v4
+  return hostentry
 end
 
 -- create spoof rules for all entries in the given hosts file
